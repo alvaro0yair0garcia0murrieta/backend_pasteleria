@@ -94,10 +94,7 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-        <plugin>
+           <plugin>
             <!-- Build an executable JAR -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
@@ -105,11 +102,12 @@
             <configuration>
                 <archive>
                     <manifest>
-                        <mainClass>org.arpit.java2blog.AppMain</mainClass>
+                        <mainClass>mx.uv.App</mainClass>
                     </manifest>
                 </archive>
             </configuration>
         </plugin>
-    </plugins>
+      </plugins>
+    </pluginManagement>
   </build>
 </project>
