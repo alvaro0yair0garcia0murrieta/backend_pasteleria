@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body class="text-center">
+
+    <main class="form-signin w-100 m-auto">
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="form-signin w-100 m-auto">
+                <form>
+                    <div class="form-floating2">
+                        <label for="id1"></label>
+                        <input type="text" id="id1" class="form-control" placeholder="id" disabled>
+                    </div>
+                    <div class="form-floating2">
+                        <label for="id2"></label>
+                        <input type="text" id="id2" class="form-control" placeholder="nombre" required>
+                    </div>
+                    <div class="form-floating2">
+                        <label for="id3"></label>
+                        <input type="text" id="id3" class="form-control" placeholder="password" required>
+                    </div>
+                    <button type="button" id="crear" class=" mt-5 btn btn-lg btn-danger"">Crear</button>
+                    <button type="button" id="consultar" class=" mt-5 btn btn-lg btn-success"">Consultar</button>
+                    <button type="button" id="existe" class=" mt-5 btn btn-lg btn-primary"">Existe</button>
+                    <!-- <label for="desbloquear">desbloquea ID</label> -->
+                    <input type="checkbox" id="desbloquear" value="desbloquear">
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <p id="usuarios"></p>
+
+
+    <script>
+        var bCrear = document.getElementById("crear")
+        var bConsultar = document.getElementById("consultar")
+        var bExiste = document.getElementById("existe")
+        var bDesbloquear = document.getElementById("desbloquear")
+
+        bDesbloquear.addEventListener("click", function () {
+            if ( document.getElementById("desbloquear").checked == true )
+                document.getElementById("id1").disabled = false
+            else
+                document.getElementById("id1").disabled = true
+        })
+
+        bCrear.addEventListener("click", function () {
+            let id_ = document.getElementById("id1").value
+            let nombre_ = document.getElementById("id2").value
+            let password_ = document.getElementById("id3").value
+            console.log(id_ + " " + nombre_ + " " + password_)
+            axios.post("https://despliegue-production-d251.up.railway.app", {
+
+                nombre: nombre_,
+                password: password_
+            })
+                .then(function (response) {
+                    console.log(response);
+                    document.getElementById("id1").value = response.data.id
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        })
+
+        bConsultar.addEventListener("click", function () {
+            let id_ = document.getElementById("id1").value
+            let nombre_ = document.getElementById("id2").value
+            let password_ = document.getElementById("id3").value
+            console.log(id_ + " " + nombre_ + " " + password_)
+            axios.get("railway-production-59c5.up.railway.app")
+                .then(function (response) {
+                    console.log(response);
+                    tabla(response.data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        })
+
+        bExiste.addEventListener("click", function () {
+            let id_ = document.getElementById("id1").value
+            let nombre_ = document.getElementById("id2").value
+            let password_ = document.getElementById("id3").value
+            console.log(id_ + " " + nombre_ + " " + password_)
+            axios.post("https://despliegue-production-d251.up.railway.app/existe", {
+                id: id_,
+                nombre: nombre_,
+                password: password_
+            })
+                .then(function (response) {
+                    console.log(response);
+                    if (response.data.status == true ){ 
+                        document.getElementById("usuarios").innerHTML = "";
+                        tabla2("["+response.data.usuario+"]")
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+    
+    
+        function tabla(response) {
+            const myObj = JSON.parse(JSON.stringify(response));
+            console.log(myObj)
+            let text = "<table class='table'><tbody>"
+                text += "<thead><th>ID</th><th>Nombre</th><th>Password</th></thead>"
+            for (let x in myObj) {
+                text += "<tr><td>" + myObj[x].id + "</td><td>" + myObj[x].nombre + "</td><td>" + myObj[x].password + "</td></tr>";
+            }
+            text += "</tbody></table>"    
+            document.getElementById("usuarios").innerHTML = text;
+        }
+    
+        function tabla2(response) {
+            const myObj = JSON.parse((response));
+            console.log(myObj)
+            let text = "<table class='table'><tbody>"
+                text += "<thead><th>ID</th><th>Nombre</th><th>Password</th></thead>"
+            for (let x in myObj) {
+                text += "<tr><td>" + myObj[x].id + "</td><td>" + myObj[x].nombre + "</td><td>" + myObj[x].password + "</td></tr>";
+            }
+            text += "</tbody></table>"    
+            document.getElementById("usuarios").innerHTML = text;
+        }
+    </script>
+</body>
+
+</html>
