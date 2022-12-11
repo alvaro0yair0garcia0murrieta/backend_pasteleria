@@ -1,4 +1,5 @@
-package mx.uv;
+package com.example.bd_pastel;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,11 +8,10 @@ import java.sql.SQLException;
 public class Conexion {
     private static ProcessBuilder processBuilder = new ProcessBuilder();
 
-    // private static String url = "jdbc:mysql://127.0.0.1:3306/ejemplo";
-    private static String url = processBuilder.environment().get("DB"); // "jdbc:mysql://db4free.net:3306/ejemplo";
+    private static String url = "jdbc:mysql://db4free.net:3306/canolli_01"; //processBuilder.environment().get("DB"); // "jdbc:mysql://db4free.net:3306/ejemplo";
     private static String driverName =  "com.mysql.cj.jdbc.Driver"; // "com.mysql.jdbc.Driver"; //
-    private static String username = processBuilder.environment().get("USERDB");
-    private static String password = processBuilder.environment().get("PASSDB");;
+    private static String username= processBuilder.environment().get("USERDB");//USERDB= canolli_01
+    private static String password =  processBuilder.environment().get("PASSDB");;//PASSDB= sistemasweb
     // variable de conexion
     private static Connection connection = null;
 
