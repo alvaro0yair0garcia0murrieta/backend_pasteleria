@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cannoli Pasteleria</title>
+    <link rel="stylesheet" href="stylePedidos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ 
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     <!-- bootstrap links-->
+     <!-- fonts links-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Uchen&display=swap" rel="stylesheet">
+     <!-- fonts links-->
+</head>
+<body>
+    <form>
+<div>
+    <h1>Pedidos</h1>
+    <h3>Añade un producto</h3>
+</div>
+<div>
+    <label for="categoria"></label>
+    <select name="categoria" id="categoria">
+        <option value="">Seleccione Categoria</option>
+        <option value="Pastel">Pastel de Cumpleaños</option>
+        <option value="pastelChocolate">Pastel de Chocolate</option>
+        <option value="pastelZanahoria">Pastel de Zanahoria</option>
+    
+    </select>
+</div>
+<div id="sabores"></div>
+<div>
+    <label for="sabor">Sabor: </label><br>
+    <input type="text" name="sabor" id="sabor" class="input" required>
+
+</div>
+<div>
+    <label for="cantidad">Cantidad</label>
+    <input type="number" name="cantidad" id="cantidad" class="input" min="1" max="100" required>
+</div>
+<div>
+    <strong>Tamaño</strong>
+    <label for="small">Chico</label>
+    <input type="radio" name="size" id="small" value="chico" checked>  
+    <label for="medium">Mediano</label>  
+    <input type="radio" name="size" id="medium" value="mediano">
+    <label for="big">Grande</label>
+    <input type="radio" name="size" id="big" value="grande">
+</div>
+<div>
+    <strong>Complementos</strong><br>
+    <input type="checkbox" id="Fresa" value="Fresa"><label for="Fresa">Fresa</label><br>
+    <input type="checkbox" id="Durazno" value="Durazno"><label for="Durazno">Durazno</label><br>
+    <input type="checkbox" id="3 Leches" value="3 Leches"><label for="3 Leches">3 Leches</label><br>
+    <input type="checkbox" id="Nuez" value="Nuez"><label for="Nuez">Nuez</label><br>
+    <input type="checkbox" id="Chispas de Colores" value="Chispas de Colores"><label for="Chispas de Colores">Chispas de Colores</label><br>
+
+</div>
+<div>
+    <input type="submit" id="send-button" name="send-button" class="button">
+    <input type="reset" value="Borrar" class="button">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="pedidos.js"></script>
+</div>
+</div>
+<div id="container" class="container"><div>
+    <input type="button" value="Completar Compra" id="finish" class="button">
+</div></div>
+    </form>
+
+    
+
+
+
+
+
+
+
+    
+    
+    
+
+
+    <script>
+
+        var botonCrear = document.getElementById("send-button")
+        
+
+        botonCrear.addEventListener("click", function () {
+            let tipo= document.getElementById("categoria").value
+            let sabor = document.getElementById("sabor").value
+            let cantidad = document.getElementById("cantidad").value
+            console.log(id_ + " " + nombre_ + " " + password_)
+            
+            axios.post("https://despliegue-production-d251.up.railway.app", {
+
+                nombre: nombre_,
+                password: password_
+            })
+                .then(function (response) {
+                    console.log(response);
+                    document.getElementById("id1").value = response.data.id
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        })    
+    </script>
+</body>
+</html>
