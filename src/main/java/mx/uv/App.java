@@ -66,10 +66,6 @@ public class App
         });
 
 
-        get("/usuarioB", (req, res) -> {
-            res.redirect("./resources/login.html");
-            return null;
-        });
         /**Iniciar sesión***************************************************** */
         post("/usuarioB", (req, res) -> {
             String payload = req.body();
