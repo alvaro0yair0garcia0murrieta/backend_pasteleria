@@ -38,37 +38,32 @@ public class App {
             return gson.toJson(DAO.dameUsuarios());
         });
 
-        post("/", (req, res) -> {
-            String datosCliente = req.body();
+        post("/usuario", (req, res) -> {
+            String payload = req.body();
             String id = UUID.randomUUID().toString();
-            Usuario u = gson.fromJson(datosCliente, Usuario.class);
+            Usuario u = gson.fromJson(payload, Usuario.class);
             u.setId(id);
+            // usuarios.put(id, u);
 
-            // devolver una respuesta JSON
+            DAO dao = new DAO();
             JsonObject objetoJson = new JsonObject();
-            objetoJson.addProperty("status", DAO.crearUsuario(u));
+            objetoJson.addProperty("status", dao.crearUsuario(u));
             objetoJson.addProperty("id", id);
             return objetoJson;
         });
 
-        post("/existe", (req, res) -> {
-            String datosCliente = req.body();
-            Usuario u = gson.fromJson(datosCliente, Usuario.class);
+        post("/usuarioB", (req, res) -> {
+            String payload = req.body();
+            Usuario u = gson.fromJson(payload, Usuario.class);
+            String email = u.getEmail();
+            String password = u.getPassword();
 
-            // devolver una respuesta JSON
+            DAO dao = new DAO();
             JsonObject objetoJson = new JsonObject();
-
-            List<Usuario> x = DAO.dameUsuarios();
-            for (Usuario xUsuario : DAO.dameUsuarios()) {
-                if (xUsuario.getId().equals(u.getId())) {
-                    objetoJson.addProperty("status", true);
-                    objetoJson.addProperty("usuario", gson.toJson(xUsuario));
-                    return objetoJson;
-                }
-            }
-            objetoJson.addProperty("status", false);
+            dao.buscarUsuario(email, password);
             return objetoJson;
         });
+
     }
 
     static int getHerokuAssignedPort() {

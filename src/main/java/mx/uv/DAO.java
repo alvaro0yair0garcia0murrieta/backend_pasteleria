@@ -5,7 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.io.IOException;
+import java.net.URISyntaxException;
 // import com.mysql.jdbc.PreparedStatement;
 // import com.mysql.jdbc.Statement;
 import java.sql.*;
@@ -60,40 +61,90 @@ public class DAO {
         return resultado;
     }
 
-    public static String crearUsuario(Usuario u) {
+    public String crearUsuario(Usuario u) {
         PreparedStatement stm = null;
-        Connection conn = null;
+        Connection con = null;
         String msj = "";
 
-        conn = c.getConnection();
+        con = c.getConnection();
         try {
-            String sql = "INSERT INTO usuarios (id, nombre, password) values (?,?,?)";
-            stm = (PreparedStatement) conn.prepareStatement(sql);
+            String sql = "INSERT INTO usuarios (id, nombre, email, password) VALUES (?, ?, ?, ?)";
+            stm = con.prepareStatement(sql);
             stm.setString(1, u.getId());
             stm.setString(2, u.getNombre());
-            stm.setString(3, u.getPassword());
+            stm.setString(3, u.getEmail());
+            stm.setString(4, u.getPassword());
+
             if (stm.executeUpdate() > 0)
-                msj = "usuario agregado";
+                msj = "El usuario fue agregado";
             else
-                msj = "usuario no agregado";
+                msj = "El usuario no se agrego";
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         } finally {
             if (stm != null) {
                 try {
                     stm.close();
                 } catch (Exception e) {
-                    System.out.println(e);
+                    e.printStackTrace();
                 }
-                stm = null;
             }
             try {
-                conn.close();
+                con.close();
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
+
         return msj;
     }
+
+    public void buscarUsuario( String email, String password){
+        Statement stm = null;
+          ResultSet rs = null;
+          Connection con = null;
+
+          con = c.getConnection();
+          try{
+              String sql = "SELECT * FROM usuarios WHERE email='"+email+ "' AND password='"+ password +"'";
+              stm = con.createStatement();
+              rs = stm.executeQuery(sql);
+              if(rs.next()){
+                  System.out.println("Bienvenido usuario");
+                  if(java.awt.Desktop.isDesktopSupported()){
+                      java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+                      if(desktop.isSupported(java.awt.Desktop.Action.BROWSE)){
+                          try{
+                              
+                              java.net.URI uri = new java.net.URI("https://www.youtube.com/shorts/mmyj1GVjMvk");
+                              desktop.browse(uri);
+                          } catch (URISyntaxException | IOException ex) {}
+                      }
+                  }
+
+              }else{
+                  System.out.println("No se pudo ingresar");
+              }
+          }catch (Exception e){
+              e.printStackTrace();
+          } finally{
+              if (stm != null) {
+                  try {
+                      stm.close();
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+              try {
+                  con.close();
+              } catch (Exception e) {
+                  e.printStackTrace();
+              }
+
+          }  
+          
+
+  }
+
 }
