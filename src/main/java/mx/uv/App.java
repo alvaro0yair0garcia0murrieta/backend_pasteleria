@@ -68,6 +68,8 @@ public class App {
             dao.buscarUsuario(email, password);
             return objetoJson;
         });
+
+        
         
     get("/productos", (req, res) -> {
         res.type("application/json");
