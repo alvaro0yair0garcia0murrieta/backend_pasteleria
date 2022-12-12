@@ -3,6 +3,7 @@ package mx.uv;
 import static spark.Spark.*;
 
 import mx.uv.bd.*;
+import spark.Spark;
 
 import com.google.gson.*;
 import java.util.Map;
@@ -17,9 +18,9 @@ public class App
     public static void main( String[] args )
     {
        
-        staticFiles.location("/public");
-        port(getHerokuAssignedPort());
        
+        port(getHerokuAssignedPort());
+        Spark.staticFiles.location("/public");
 
         options("/*", (request, response) -> {
 
@@ -40,7 +41,7 @@ public class App
 
 
         get("/", (req, res) -> {
-            res.redirect("/resources/indexPasteleria.html");
+            res.redirect("/indexPasteleria.html");
             return null;
         });
 
