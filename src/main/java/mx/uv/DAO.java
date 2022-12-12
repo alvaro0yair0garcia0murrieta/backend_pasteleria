@@ -144,7 +144,148 @@ public class DAO {
 
           }  
           
+          
 
   }
+
+
+  public static List<Producto> LisProductos() {
+    Statement stm = null;
+    ResultSet rs = null;
+    Connection con = null;
+    List<Producto> resultado = new ArrayList();
+
+    con = c.getConnection();
+
+    try {
+        String sql = "SELECT * FROM Producto";
+        stm = (Statement) con.createStatement();
+        rs = ((java.sql.Statement) stm).executeQuery(sql);
+        while (rs.next()) {
+            Producto u = new Producto(rs.getString("idProducto"),
+                    rs.getString("categoria"), rs.getString("sabor"),
+                    rs.getString("precio"), rs.getString("cantidad"));
+            resultado.add(u);
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    } finally {
+        if (rs != null)
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        rs = null;
+        if (stm != null) {
+            try {
+                stm.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            stm = null;
+        }
+        try {
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    return resultado;
+}
+
+/*Ingresar nuevo producto */
+
+public static String NewProducto(Producto p) {
+    String msj = "";
+    PreparedStatement stm = null;
+    Connection con = null;
+
+    con = c.getConnection();
+
+    String categoriaver = p.getCategoria();
+    String saborver = p.getSabor();
+    String preciover = p.getPrecio();
+    String cantidadver = p.getCantidad();
+    try {
+
+        if (categoriaver.length() == 0 || saborver.length() == 0 || preciover.length() == 0 || cantidadver.length() == 0) {
+            msj = "ERROR EN ALGUN CAMPO";
+        } else {
+            String sql = "INSERT INTO producto (idProducto, categoria, sabor, cantidad, precio) values (?,?,?,?,?)";
+            stm = (PreparedStatement) con.prepareStatement(sql);
+            stm.setString(1, p.getIdProducto());
+            stm.setString(2, p.getCategoria());
+            stm.setString(3, p.getSabor());
+            stm.setString(4, p.getPrecio());
+            stm.setString(4, p.getCantidad());
+
+            if (stm.executeUpdate() > 0)
+                msj = "producto agregado";
+
+            else
+                msj = "producto no agregado";
+        }
+
+    } catch (Exception e) {
+        System.out.println(e);
+    } finally {
+        if (stm != null) {
+            try {
+                stm.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            stm = null;
+        }
+        try {
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    return msj;
+}
+/*Eliminar un producto */
+
+public static String eliminaDAO(String idProducto) {
+    String msj = "";
+    String copia = idProducto;
+    PreparedStatement stm = null;
+    //String sql = "delete from Producto where idProducto= ?";
+    Connection con = null;
+    con = c.getConnection();
+
+    try {
+        stm = (PreparedStatement) con.prepareStatement("delete from Productos where idProducto = ?");
+        stm.setString(1, copia);
+        if (stm.executeUpdate() > 0) {
+            msj = "Eliminado con exito";
+        } else {
+            msj = "No se encontro el producto";
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    } finally {
+        if (stm != null) {
+            try {
+                stm.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            stm = null;
+        }
+        try {
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    return msj;
+}
+
+
 
 }
