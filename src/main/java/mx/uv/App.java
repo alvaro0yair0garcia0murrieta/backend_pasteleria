@@ -38,6 +38,11 @@ public class App {
             return gson.toJson(DAO.dameUsuarios());
         });
 
+        get("/lista", (req, res) -> {
+            res.type("application/json");
+            return gson.toJson(DAO.LisProductos());
+        });
+
         post("/usuario", (req, res) -> {
             String payload = req.body();
             String id = UUID.randomUUID().toString();
@@ -63,6 +68,25 @@ public class App {
             dao.buscarUsuario(email, password);
             return objetoJson;
         });
+        
+    get("/productos", (req, res) -> {
+        res.type("application/json");
+        return gson.toJson(DAO.LisProductos());
+      });
+  
+      post("/creaProductos", (req, res) -> {
+        String id = UUID.randomUUID().toString();
+        String datosUsu = req.body();
+        final Producto p1 = gson.fromJson(datosUsu, Producto.class);
+        p1.setId(id);
+        DAO.NewProducto(p1);
+        return DAO.NewProducto(p1);
+      });
+  
+      get("/borrarProducto", (req, res) -> {
+        System.out.println(req.queryParams("id"));
+        return DAO.eliminaDAO(req.queryParams("id"));
+      });
 
     }
 

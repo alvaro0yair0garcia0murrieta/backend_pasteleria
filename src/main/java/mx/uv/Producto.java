@@ -1,7 +1,7 @@
 package mx.uv;
 
 public class Producto {
-    private String idProducto;
+    private String id;
     private String categoria;
     private String sabor;
     private String precio;
@@ -9,7 +9,7 @@ public class Producto {
     
     
     public Producto(String idProducto, String categoria, String sabor, String precio, String cantidad) {
-        this.idProducto = idProducto;
+        this.id = idProducto;
         this.categoria = categoria;
         this.sabor = sabor;
         this.precio = precio;
@@ -19,11 +19,11 @@ public class Producto {
 
 
  public String getIdProducto() {
-    return idProducto;
+    return id;
 }
 
 public void setId(String idProducto) {
-    this.idProducto = idProducto;
+    this.id= idProducto;
 }
 
 public String getCategoria() {
