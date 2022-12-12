@@ -20,6 +20,7 @@ public class App
        
        
         port(getHerokuAssignedPort());
+        int p= getHerokuAssignedPort();
         Spark.staticFiles.location("/public");
 
         options("/*", (request, response) -> {
@@ -41,7 +42,7 @@ public class App
 
 
         get("/", (req, res) -> {
-            res.redirect("/indexPasteleria.html");
+            res.redirect("https://backendpasteleria-production.up.railway.app/:"+p+"/indexPasteleria.html");
             return null;
         });
 
