@@ -42,7 +42,7 @@ public class App
 
 
         get("/", (req, res) -> {
-            res.redirect("https://backendpasteleria-production.up.railway.app/:"+p+"/indexPasteleria.html");
+            res.redirect("https://backendpasteleria-production.up.railway.app:"+p+"/indexPasteleria.html");
             return null;
         });
 
