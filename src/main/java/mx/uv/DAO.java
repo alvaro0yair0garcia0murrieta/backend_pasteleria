@@ -258,7 +258,7 @@ public static String eliminaDAO(String idProducto) {
     con = c.getConnection();
 
     try {
-        stm = (PreparedStatement) con.prepareStatement("delete from Productos where idProducto = ?");
+        stm = (PreparedStatement) con.prepareStatement("delete from producto where idProducto = ?");
         stm.setString(1, copia);
         if (stm.executeUpdate() > 0) {
             msj = "Eliminado con exito";
