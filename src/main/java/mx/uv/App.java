@@ -20,8 +20,7 @@ public class App
        
        
         port(getHerokuAssignedPort());
-        int p= getHerokuAssignedPort();
-        Spark.staticFiles.location("/public");
+      
 
         options("/*", (request, response) -> {
 
@@ -41,16 +40,8 @@ public class App
         before((req, res) -> res.header("Access-Control-Allow-Origin", "*"));
 
 
-        get("/", (req, res) -> {
-            res.redirect("https://backendpasteleria-production.up.railway.app:"+p+"/indexPasteleria.html");
-            return null;
-        });
 
-        get("/usuario", (req, res) -> {
-            res.redirect("./resources/registro.html");
-            return null;
-        });
-      
+
         post("/usuario", (req, res) -> {
             String payload = req.body();
             String id = UUID.randomUUID().toString();
